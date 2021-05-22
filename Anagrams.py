@@ -3,33 +3,46 @@ from itertools import combinations
 from collections import defaultdict
 from itertools import islice
 
+
 counter = 0
 count = 1
-with open("words.txt") as file:
-    lines = (x[:-1].lower() for x in file.readlines())
-    words = list(islice(lines, 3000))
+
+#abre archivo
+def fileReader(fileName):
+    with open(fileName) as file:
+        lines = (x[:-1].lower() for x in file.readlines())
+        words = list(islice(lines, 338882))
+    return words
     
+#sortea
 def key(w):
   return "".join(sorted(w))
 
-d = defaultdict(list)
-for w in words:
-    d[key(w)].append(w)
+#mete diccionario
+def dictAppender(wordList):
+    d = defaultdict(list)
+    for w in wordList:
+        d[key(w)].append(w)
+    return d
 
-anagrams = [tuple(r) for v in d.values() for r in combinations(v, 2)]
+#crea tupla con combinaciones
+def getAnagram(d):
+    anagrams = [tuple(r) for v in d.values() for r in combinations(v, 2 )]
+    return anagrams
 
-print ("\nLas palabras anagramas en el documento son:\n")
+#imprime
+def printLines(anagrams):
+    printList ="\nLas palabras anagramas en el documento son:\n"
 
-for line in anagrams:
-    for i in line:
-        final = (list(dict.fromkeys(anagrams[counter])))
-        if len(final)>1:
-            print(final)
-        counter += 1
-        
+    for line in anagrams:
+        if(line[0] != line[1]):
+            printList += str(line) + "\n"       
+    printList += ""
+    return printList      
 
-        
-        
-        
 
-print("")      
+file = "words.txt"
+wordList = fileReader(file)
+dictList = dictAppender(wordList)
+anagramList = getAnagram(dictList)
+print(printLines(anagramList))
