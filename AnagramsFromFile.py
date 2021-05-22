@@ -11,7 +11,7 @@ count = 1
 def fileReader(fileName):
     with open(fileName) as file:
         lines = (x[:-1].lower() for x in file.readlines())
-        words = list(islice(lines, 15000))
+        words = list(islice(lines, 338882))
     return words
     
 #sortea
