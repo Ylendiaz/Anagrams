@@ -1,59 +1,36 @@
-from collections import defaultdict
-from itertools import combinations
-from collections import defaultdict
-from itertools import islice
+
+from collections import Counter
+import urllib.request
 
 
-counter = 0
-count = 1
+def word_hash(word):
+  return frozenset(Counter(word).items())
 
-#abre archivo
-def fileReader(fileName):
-    with open(fileName) as file:
-        lines = (x[:-1].lower() for x in file.readlines())
-        words = list(islice(lines, 338882))
-    return words
-    
-#sortea
-def key(w):
-  return "".join(sorted(w))
-
-#crea tupla con combinaciones
-def getAnagram(d):
-    d = defaultdict(list)
-    for w in wordList:
-        d[key(w)].append(w)
-
-    anagrams = [tuple(r) for v in d.values() for r in combinations(v, 2 )]
-    return anagrams
-
-def isNotDuplicated(line):
-    return line[0] != line[1]
-
-#imprime
-def printLines(anagrams):
-    printList ="\nLas palabras anagramas en el documento son:\n"
-
-    for line in anagrams:
-        if(isNotDuplicated(line)):
-            printList += str(line) + "\n"       
-    printList += ""
-    # return printList 
-    
-    file = open("anagramsListResult.txt","w") 
-    file.write(printList)
-    file.close     
+def read_word_file():
+  with open('words.txt') as f:
+    words = f.read().splitlines()
+  return words
 
 
-# def createFile(printList):
-#     file = open("anagramsListResult.txt","w") 
-#     file.write(printList)
-#     file.close
+if __name__ == "__main__":
+  
+  # reads file into memory
+  words = read_word_file()
 
+  d = {}
 
-file = "words.txt"
-wordList = fileReader(file)
-anagramList = getAnagram(wordList)
-# print(printLines(anagramList))
-printLines(anagramList)
-# createFile(printList)
+  for word in words:
+    k = word_hash(word)
+    if k in d:
+      d[k].append(word)
+    else:
+      d[k] = [word]
+
+  # Prints the filtered results to only words with anagrams
+  printList = ([x for x in d.values() if len(x) > 1])
+  file = open("anagramsListResult.txt","w") 
+  for elements in printList:
+    file.write("%s\n" % elements)
+  file.close   
+
+  file = "words.txt"
