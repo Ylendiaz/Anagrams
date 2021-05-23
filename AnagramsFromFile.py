@@ -38,10 +38,22 @@ def printLines(anagrams):
         if(isNotDuplicated(line)):
             printList += str(line) + "\n"       
     printList += ""
-    return printList      
+    # return printList 
+    
+    file = open("anagramsListResult.txt","w") 
+    file.write(printList)
+    file.close     
+
+
+# def createFile(printList):
+#     file = open("anagramsListResult.txt","w") 
+#     file.write(printList)
+#     file.close
 
 
 file = "words.txt"
 wordList = fileReader(file)
 anagramList = getAnagram(wordList)
-print(printLines(anagramList))
+# print(printLines(anagramList))
+printLines(anagramList)
+# createFile(printList)
