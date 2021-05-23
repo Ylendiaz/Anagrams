@@ -4,8 +4,8 @@ import unittest
 class Test_GetAnagramsFromFile(unittest.TestCase):
 
     def test_getAnagramsFromFile(self):
-        AnagramsFromFile.wordList = ['amor', 'huevo', 'roma']
-        self.assertTrue(AnagramsFromFile.getAnagram(AnagramsFromFile.wordList) == [('amor', 'roma')])
+        AnagramsFromFile.elements = ['amor', 'huevo', 'roma']
+        self.assertTrue((AnagramsFromFile.printList) == [('amor', 'roma')])
 
 
 class Test_NotDuplicate(unittest.TestCase):
